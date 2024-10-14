@@ -10,6 +10,11 @@
     _id?: string;
 }
 
+export interface tokenType{
+    refreshToken?:string;
+    accessToken?:string;
+}
+
  export interface collegeType {
     collegeName: string;
     date: string;

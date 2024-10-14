@@ -3,6 +3,18 @@
 /node_modules
 /build
 
+
+# Ignore images
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.svg
+
+# Ignore PDF files
+*.pdf
+
 # Logs
 logs
 *.log

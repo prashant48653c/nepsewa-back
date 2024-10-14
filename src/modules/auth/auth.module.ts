@@ -10,17 +10,25 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true 
+    }),
     PassportModule.register({ defaultStrategy: 'jwt' }),  
     JwtModule.registerAsync({
+      imports: [ConfigModule.forRoot({
+        envFilePath: '.env',
+        isGlobal: true 
+      })],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        secret: config.get<string>('JWT_SECRET'),
+        secret: config.get('JWT_SECRET'),
         signOptions: {
-          expiresIn: config.get<string | number>('15m'),
+          expiresIn: '7d',
         },
       }),
     }),
-    ConfigModule,
+    
     MongooseModule.forFeature([{ name: User.name, schema: USERSCHEMA }]),
   ],
   controllers: [AuthController],
