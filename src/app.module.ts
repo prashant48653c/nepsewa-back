@@ -14,6 +14,10 @@ import { DocController } from './modules/document/doc.controller';
 import { DocService } from './modules/document/doc.service';
 import { DocModule } from './modules/document/doc.module';
 import { MailerService } from './utils/welcome';
+import { NoticeModule } from './modules/notice/notice.module';
+import { NoticeController } from './modules/notice/notice.controller';
+import { NoticeService } from './modules/notice/notice.service';
+import { Notice, NoticeSchema } from './schemas/notice.schema';
  
 
 @Module({
@@ -25,6 +29,10 @@ import { MailerService } from './utils/welcome';
     rootPath: join(__dirname, '..', 'uploads'),
     serveRoot: '/uploads',
   }),
+  ServeStaticModule.forRoot({
+    rootPath: join(__dirname, '..', 'profilePics'),
+    serveRoot: '/profilePics',
+  }),
 
   ServeStaticModule.forRoot({
     rootPath: join(__dirname, '..', 'pdfs'),
@@ -32,6 +40,7 @@ import { MailerService } from './utils/welcome';
   }),
   AuthModule,
   DocModule,
+  NoticeModule,
   JwtModule,
   JwtModule.registerAsync({
     imports: [ConfigModule.forRoot({
@@ -49,9 +58,11 @@ import { MailerService } from './utils/welcome';
   
   MongooseModule.forRoot(process.env.MONGO_URL),
   MongooseModule.forFeature([{ name: User.name, schema: USERSCHEMA }]),
+  MongooseModule.forFeature([{ name: Notice.name, schema: NoticeSchema }]),
+
   
 ],
-  controllers: [AppController, AuthController,DocController],
-  providers: [AppService,AuthService,DocService,MailerService],
+  controllers: [AppController, AuthController,DocController,NoticeController],
+  providers: [AppService,AuthService,DocService,MailerService,NoticeService],
 })
 export class AppModule {}
