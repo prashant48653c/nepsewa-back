@@ -7,7 +7,9 @@
     password: string;
     email: string;
     nagrita?: string;
+    profilePic?:string;
     _id?: string;
+    role?:string;  // can be either citizen,gov-officer,school-accountant
 }
 
 export interface tokenType{
