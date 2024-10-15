@@ -9,13 +9,15 @@ import { hashPassword } from 'src/utils/hash';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt'
 import { ConfigService } from '@nestjs/config'
+import { MailerService } from 'src/utils/welcome';
 
 @Injectable()
 export class AuthService {
     constructor(
         @InjectModel(User.name) private readonly userModel: Model<User>,
         private jwtService: JwtService,
-        private configService:ConfigService
+        private configService:ConfigService,
+        private mailerService:MailerService
     ) { }
 
     async signUp(signUpDto: SignUpDto) {
@@ -29,6 +31,8 @@ export class AuthService {
 
         const newUser = await this.userModel.create({ ...signUpDto, password: hashedPassword })
         await newUser.save();
+
+        await this.mailerService.sendWelcomeEmail(email,username);
         return newUser
     }
 

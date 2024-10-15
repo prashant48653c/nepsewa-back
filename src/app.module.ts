@@ -13,6 +13,7 @@ import { join } from 'path';
 import { DocController } from './modules/document/doc.controller';
 import { DocService } from './modules/document/doc.service';
 import { DocModule } from './modules/document/doc.module';
+import { MailerService } from './utils/welcome';
  
 
 @Module({
@@ -51,6 +52,6 @@ import { DocModule } from './modules/document/doc.module';
   
 ],
   controllers: [AppController, AuthController,DocController],
-  providers: [AppService,AuthService,DocService],
+  providers: [AppService,AuthService,DocService,MailerService],
 })
 export class AppModule {}

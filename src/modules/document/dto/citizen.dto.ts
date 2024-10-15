@@ -25,6 +25,7 @@ export class CreateUserDto {
 
   @IsString()
   contact: string;
+  
 
   
 }
