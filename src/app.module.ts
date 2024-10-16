@@ -18,6 +18,9 @@ import { NoticeModule } from './modules/notice/notice.module';
 import { NoticeController } from './modules/notice/notice.controller';
 import { NoticeService } from './modules/notice/notice.service';
 import { Notice, NoticeSchema } from './schemas/notice.schema';
+import { PaymentModule } from './modules/payment/payment.module';
+import { PaymentController } from './modules/payment/payment.controller';
+import { PaymentService } from './modules/payment/payment.service';
  
 
 @Module({
@@ -29,19 +32,14 @@ import { Notice, NoticeSchema } from './schemas/notice.schema';
     rootPath: join(__dirname, '..', 'uploads'),
     serveRoot: '/uploads',
   }),
-  ServeStaticModule.forRoot({
-    rootPath: join(__dirname, '..', 'profilePics'),
-    serveRoot: '/profilePics',
-  }),
+  
 
-  ServeStaticModule.forRoot({
-    rootPath: join(__dirname, '..', 'pdfs'),
-    serveRoot: '/pdfs',
-  }),
+   
   AuthModule,
   DocModule,
   NoticeModule,
   JwtModule,
+  PaymentModule,
   JwtModule.registerAsync({
     imports: [ConfigModule.forRoot({
       envFilePath: '.env',
@@ -62,7 +60,7 @@ import { Notice, NoticeSchema } from './schemas/notice.schema';
 
   
 ],
-  controllers: [AppController, AuthController,DocController,NoticeController],
-  providers: [AppService,AuthService,DocService,MailerService,NoticeService],
+  controllers: [AppController, AuthController,DocController,NoticeController,PaymentController],
+  providers: [AppService,AuthService,DocService,MailerService,NoticeService,PaymentService],
 })
 export class AppModule {}

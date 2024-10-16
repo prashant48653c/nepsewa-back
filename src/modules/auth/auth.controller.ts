@@ -1,5 +1,4 @@
-
-import { Body, Controller, Get, Param, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, UploadedFile, UseGuards, UseInterceptors, HttpException, HttpStatus } from '@nestjs/common';
 import { SignUpDto } from './dto/signup.dto';
 import { AuthService } from './auth.service';
 import { tokenType, userType } from 'src/constant/types';
@@ -15,31 +14,31 @@ export class AuthController {
 
     @Post('signup')
     async signUp(@Body() signUpDto: SignUpDto): Promise<userType> {
-        return await this.authService.signUp(signUpDto)
- 
+        try {
+            return await this.authService.signUp(signUpDto);
+        } catch (error) {
+            throw new HttpException('Error during signup', HttpStatus.BAD_REQUEST);
+        }
     }
 
-    
     @Post('login')
-    async login(@Body() loginDto:loginDto):Promise<tokenType>{
-        console.log("Gone")
-        return await this.authService.login(loginDto)
+    async login(@Body() loginDto: loginDto): Promise<tokenType> {
+        try {
+            console.log("Login attempt");
+            return await this.authService.login(loginDto);
+        } catch (error) {
+            throw new HttpException('Login failed', HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @Patch('updatepp/:id')
-    @UseInterceptors(FileInterceptor('profilePic',{
-        storage: diskStorage({
-            destination:'./profilePics',
-            filename(req, file, callback) {
-                const uniqueName=Date.now() + '-' + Math.round(Math.random() * 1e9);
-                callback(null, `${uniqueName}${extname(file.originalname)}`);
-              },
-        })
-    }))
-    async updateProfilePicture(@UploadedFile() profilePic:Express.Multer.File,@Param('id') id:string):Promise<userType>{
-        const user= await this.authService.updateProfilePicture(profilePic,id)
-        return user
+    @UseInterceptors(FileInterceptor('profilePic')) 
+    async updateProfilePicture(@UploadedFile() profilePic: Express.Multer.File, @Param('id') id: string): Promise<userType> {
+        try {
+            const user = await this.authService.updateProfilePicture(profilePic, id);
+            return user;
+        } catch (error) {
+            throw new HttpException('Error updating profile picture', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-
-    
 }
