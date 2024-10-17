@@ -1,5 +1,5 @@
 // src/notice/notice.controller.ts
-import { Body, Controller, Delete, Get, Param, Post, HttpException, HttpStatus } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, HttpException, HttpStatus, Query } from '@nestjs/common';
 import { NoticeService } from './notice.service';
 import { CreateNoticeDto } from './dto/create-notice.dto';
 import { Notice } from '../../schemas/notice.schema';
@@ -18,9 +18,9 @@ export class NoticeController {
   }
 
   @Get()
-  async getAllNotices(): Promise<Notice[]> {
+  async getAllNotices(@Query('currentPage') currentPage:number=1 ): Promise<Notice[]> {
     try {
-      return await this.noticeService.findAll();
+      return await this.noticeService.findAll(currentPage);
     } catch (error) {
       throw new HttpException('Error fetching notices', HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -11,17 +11,17 @@ export class MailerService {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'acharyaprashant227@gmail.com', // Your Gmail account
-            pass: process.env.APP_PASS 
-        }
+      service: 'gmail',
+      auth: {
+        user: 'acharyaprashant227@gmail.com', // Your Gmail account
+        pass: process.env.APP_PASS
+      }
     });
   }
 
-  async sendWelcomeEmail(to: string, username: string): Promise<void> {
-   
-    const templatePath = join(__dirname, '../../templates/welcome.hbs');
+  async sendWelcomeEmail(to: string, username: string, type: string = 'welcome'): Promise<void> {
+    const templatePath = type === 'job' ? join(__dirname, '../../templates/jobalert.hbs') : join(__dirname, '../../templates/welcome.hbs')
+
 
     const templateSource = fs.readFileSync(templatePath, 'utf8');
     const template = Handlebars.compile(templateSource);
@@ -33,7 +33,7 @@ export class MailerService {
       from: 'acharyaprashant227@gmail.com',
       to,
       subject: 'Welcome to NepSewa!',
-      html,  
+      html,
     };
 
     try {

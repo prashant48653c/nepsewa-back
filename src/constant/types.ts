@@ -9,7 +9,7 @@
     nagrita?: string;
     profilePic?:string;
     _id?: string;
-    role?:string;  // can be either citizen,gov-officer,school-accountant
+    isAdmin?:boolean;  // can be either citizen,admin
 }
 
 export interface tokenType{

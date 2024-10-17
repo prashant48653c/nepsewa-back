@@ -6,7 +6,7 @@ import { Notice, NoticeDocument } from '../../schemas/notice.schema';
 
 @Injectable()
 export class NoticeService {
-  constructor(@InjectModel(Notice.name) private noticeModel: Model<NoticeDocument>) {}
+  constructor(@InjectModel(Notice.name) private noticeModel: Model<NoticeDocument>) { }
 
   async create(createNoticeDto: CreateNoticeDto): Promise<Notice> {
     try {
@@ -21,9 +21,17 @@ export class NoticeService {
     }
   }
 
-  async findAll(): Promise<Notice[]> {
+  async findAll(currentPage: number): Promise<Notice[]> {
     try {
-      return await this.noticeModel.find().exec();
+      const limit = 4;
+      const skip = (currentPage - 1) * limit;
+      return await this.noticeModel.aggregate([
+        {
+          $group: { _id: null, }
+        },
+        { $sort: { createdAt: -1 } },
+        { $skip: skip }, { $limit: limit }
+      ])
     } catch (error) {
       console.error('Error fetching notices:', error);
       throw new HttpException('Failed to retrieve notices', HttpStatus.INTERNAL_SERVER_ERROR);

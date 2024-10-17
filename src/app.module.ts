@@ -21,6 +21,15 @@ import { Notice, NoticeSchema } from './schemas/notice.schema';
 import { PaymentModule } from './modules/payment/payment.module';
 import { PaymentController } from './modules/payment/payment.controller';
 import { PaymentService } from './modules/payment/payment.service';
+import { CollegeModule } from './modules/college/college.module';
+import { CollegeService } from './modules/college/college.service';
+import { CollegeController } from './modules/college/college.controller';
+import { Course, CourseSchema } from './schemas/course.schema';
+import { College, CollegeSchema } from './schemas/college.schema';
+import { JobModule } from './modules/job/job.module';
+import { Job, JobSchema } from './schemas/job.schema';
+import { JobService } from './modules/job/job.service';
+import { JobController } from './modules/job/job.controller';
  
 
 @Module({
@@ -40,6 +49,8 @@ import { PaymentService } from './modules/payment/payment.service';
   NoticeModule,
   JwtModule,
   PaymentModule,
+  CollegeModule,
+  JobModule,
   JwtModule.registerAsync({
     imports: [ConfigModule.forRoot({
       envFilePath: '.env',
@@ -57,10 +68,16 @@ import { PaymentService } from './modules/payment/payment.service';
   MongooseModule.forRoot(process.env.MONGO_URL),
   MongooseModule.forFeature([{ name: User.name, schema: USERSCHEMA }]),
   MongooseModule.forFeature([{ name: Notice.name, schema: NoticeSchema }]),
+  MongooseModule.forFeature([{ name: College.name, schema: CollegeSchema }]),
+  MongooseModule.forFeature([{ name: Course.name, schema: CourseSchema }]),
+  MongooseModule.forFeature([{ name: Job.name, schema: JobSchema }]),
+
+
+
 
   
 ],
-  controllers: [AppController, AuthController,DocController,NoticeController,PaymentController],
-  providers: [AppService,AuthService,DocService,MailerService,NoticeService,PaymentService],
+  controllers: [AppController, AuthController,DocController,NoticeController,PaymentController,CollegeController,JobController],
+  providers: [AppService,AuthService,DocService,MailerService,NoticeService,PaymentService,CollegeService,JobService],
 })
 export class AppModule {}

@@ -28,8 +28,14 @@ export class User {
   @Prop({ type: String,default:"http://localhost:4000/uploads/default.jpg" })
   profilePic:string;
 
+  @Prop()
+  education:string;
+
   @Prop({ type: String })
   refreshToken:string;
+
+  @Prop({default:false})
+  isAdmin:boolean;
 }
 
 export const USERSCHEMA = SchemaFactory.createForClass(User).index({
