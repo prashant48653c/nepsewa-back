@@ -32,7 +32,7 @@ export class MailerService {
     const mailOptions = {
       from: 'acharyaprashant227@gmail.com',
       to,
-      subject: 'Welcome to NepSewa!',
+      subject: 'NepSewa ',
       html,
     };
 

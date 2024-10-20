@@ -44,3 +44,9 @@ export interface tokenType{
     yesCount: number;
     noCount: number;
 }
+
+export interface userQues{
+    userId:string;
+    vote:boolean;
+    answer:string;
+}

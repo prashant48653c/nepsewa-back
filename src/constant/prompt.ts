@@ -1,0 +1,1 @@
+export const questionPrompt="return a single question like `do you agree about xyz situation of nepal politics` in simple english and return only question don't write here is the question and don't repeat the question"

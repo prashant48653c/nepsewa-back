@@ -30,6 +30,10 @@ import { JobModule } from './modules/job/job.module';
 import { Job, JobSchema } from './schemas/job.schema';
 import { JobService } from './modules/job/job.service';
 import { JobController } from './modules/job/job.controller';
+import { QnaModule } from './modules/qna/qna.module';
+import { QNA, QnaSchema } from './schemas/qna.schema';
+import { QnaController } from './modules/qna/qna.controller';
+import { qnaService } from './modules/qna/qna.service';
  
 
 @Module({
@@ -51,6 +55,7 @@ import { JobController } from './modules/job/job.controller';
   PaymentModule,
   CollegeModule,
   JobModule,
+  QnaModule,
   JwtModule.registerAsync({
     imports: [ConfigModule.forRoot({
       envFilePath: '.env',
@@ -71,13 +76,15 @@ import { JobController } from './modules/job/job.controller';
   MongooseModule.forFeature([{ name: College.name, schema: CollegeSchema }]),
   MongooseModule.forFeature([{ name: Course.name, schema: CourseSchema }]),
   MongooseModule.forFeature([{ name: Job.name, schema: JobSchema }]),
+  MongooseModule.forFeature([{ name: QNA.name, schema:QnaSchema }]),
+
 
 
 
 
   
 ],
-  controllers: [AppController, AuthController,DocController,NoticeController,PaymentController,CollegeController,JobController],
-  providers: [AppService,AuthService,DocService,MailerService,NoticeService,PaymentService,CollegeService,JobService],
+  controllers: [AppController, AuthController,DocController,NoticeController,PaymentController,CollegeController,JobController,QnaController],
+  providers: [AppService,AuthService,DocService,MailerService,NoticeService,PaymentService,CollegeService,JobService,qnaService],
 })
 export class AppModule {}

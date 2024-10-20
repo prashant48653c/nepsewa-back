@@ -10,7 +10,7 @@ export class CollegeController {
   @Post()
   @UseInterceptors(FilesInterceptor('picture',4))
 
-  async createPayment(@Body() collegeDto:CollegeDto, @UploadedFiles() picture:Express.Multer.File) {
+  async createCollege(@Body() collegeDto:CollegeDto, @UploadedFiles() picture:Express.Multer.File[]) {
     return this.collegeService.createCollege(collegeDto,picture);
   }
 

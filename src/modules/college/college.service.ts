@@ -10,7 +10,7 @@ export class CollegeService {
   constructor(
     @InjectModel(College.name) private collegeModel: Model<CollegeDocument>
   ) { }
-  async createCollege(CollegeDto: CollegeDto, pictures: Express.Multer.File) {
+  async createCollege(CollegeDto: CollegeDto, pictures: Express.Multer.File[]) {
     const picturesUrl = await uploadImages(pictures)
     const newCollege = new this.collegeModel({ ...CollegeDto, picture: picturesUrl })
     return await newCollege.save()
