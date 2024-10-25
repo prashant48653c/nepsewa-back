@@ -3,7 +3,7 @@ import { Model } from "mongoose";
 import { questionPrompt } from "src/constant/prompt";
 import { QNA, QnaSchema } from "src/schemas/qna.schema";
 import { User } from "src/schemas/user.schema";
-import { useTextAi } from "src/utils/generateQues";
+import { useTextAi } from "src/utils/api";
 import { QnaDto } from "./dto/qna.dto";
 
 

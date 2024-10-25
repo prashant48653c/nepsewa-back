@@ -1,18 +1,17 @@
 import OpenAI from 'openai';
 
+const openai = new OpenAI({
+    apiKey: process.env.NIM_API_KEY,
+    baseURL: 'https://integrate.api.nvidia.com/v1',
+});
 export async function useTextAi(prompt:string):Promise<String> {
-    const openai = new OpenAI({
-        apiKey: process.env.NIM_API_KEY,
-        baseURL: 'https://integrate.api.nvidia.com/v1',
-    });
-
     try {
         const completion = await openai.chat.completions.create({
             model: "meta/llama-3.1-405b-instruct",
             messages: [{ "role": "user", "content": prompt }],
             temperature: 0.2,
             top_p: 0.7,
-            max_tokens: 60,
+            max_tokens: 1000,
             stream: true 
         });
 
@@ -32,5 +31,7 @@ export async function useTextAi(prompt:string):Promise<String> {
         }
     }
 }
+
+
 
  

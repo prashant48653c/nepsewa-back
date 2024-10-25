@@ -28,6 +28,6 @@ export class AccessTokenStrategy extends PassportStrategy(
     console.log(payload, "from access stragety")
     const user = await this.userModel.findById(payload._id);
     if (user) return user;
-    throw new UnauthorizedException({ message: 'Login to continue' });
+    throw new UnauthorizedException({ message: 'Access token is expired' });
   }
 }

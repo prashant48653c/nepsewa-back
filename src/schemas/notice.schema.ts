@@ -12,6 +12,9 @@ export class Notice{
     @Prop()
     desc:string;
 
+    @Prop()
+    type:string;
+
 
     @Prop()
     createdAt:string;

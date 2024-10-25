@@ -1,21 +1,21 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
 
+import { Document, Schema as MongooseSchema } from "mongoose";
 
-export type CollegeDocument= College & Document
+export type CollegeDocument = College & Document
 
 @Schema()
-export class College{
+export class College {
     @Prop()
-    collegeName:string;
+    @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Course' }], default: [] })
+    courses: MongooseSchema.Types.ObjectId[];
+
     @Prop()
-    course:string[];
+    desc: string;
+    @Prop({ default: true })
+    picture?: string[];
     @Prop()
-    desc:string;
-    @Prop({default:true})
-    picture?:string[];
-    @Prop()
-    comments:string[]
+    comments: string[]
 }
 
-export const CollegeSchema=SchemaFactory.createForClass(College)
+export const CollegeSchema = SchemaFactory.createForClass(College)

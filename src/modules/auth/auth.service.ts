@@ -10,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import { MailerService } from 'src/utils/welcome';
 import { uploadImages } from 'src/config/cloudinary.config';
+import { userType } from 'src/constant/types';
 
 @Injectable()
 export class AuthService {
@@ -24,18 +25,18 @@ export class AuthService {
         try {
             const { username, email, password } = signUpDto;
             console.log(signUpDto);
-            
+
             const isOldUser = await this.userModel.findOne({ email });
             if (isOldUser) {
                 throw new ConflictException({ message: 'Email already exists' });
             }
-            
+
             const hashedPassword = await hashPassword(password);
             const newUser = new this.userModel({ ...signUpDto, password: hashedPassword });
-            
+
             await newUser.save();
             await this.mailerService.sendWelcomeEmail(email, username);
-            
+
             return newUser;
         } catch (error) {
             console.error('Error during sign up:', error);
@@ -82,5 +83,19 @@ export class AuthService {
             console.error('Error updating profile picture:', error);
             throw new HttpException('Failed to update profile picture', HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    async createNewTokens(refreshToken: string) {
+        const user = await this.userModel.findOne({ refreshToken })
+        if (!user) {
+            throw new Error('Login to continue');
+        }
+        const payload = { _id: user._id };
+        const accessToken = this.jwtService.sign(payload, {
+            secret: this.configService.get<string>('JWT_SECRET'),
+            expiresIn: '15m',
+        });
+
+        return accessToken
     }
 }
